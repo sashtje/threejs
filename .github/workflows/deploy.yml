@@ -59,6 +59,9 @@ jobs:
             # Собираем проект
             npm run build
 
+            git config --global user.email "sashtje.lefevre@gmail.com"
+            git config --global user.name "sashtje"
+
             # Деплоим на GitHub Pages
             npx gh-pages -d build -r https://github.com/${{ github.repository }} -b gh-pages --dest $project --message "Deploy $project"
 

@@ -26,6 +26,7 @@ const renderer = new WebGLRenderer();
 renderer.setSize(sizes.width, sizes.height);
 // под капотом у renderer requestAnimationFrame
 renderer.setAnimationLoop(animate);
+
 // добавили canvas на страницу
 renderer.domElement.classList = "webgl";
 document.body.appendChild(renderer.domElement);
