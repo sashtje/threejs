@@ -1,0 +1,65 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  detect-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Шаг 1: Клонируем репозиторий
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Шаг 2: Определяем измененные папки проектов
+      - name: Detect changed projects
+        id: detect_changes
+        run: |
+          # Получаем список измененных файлов
+          changed_files=$(git diff --name-only HEAD~1 HEAD)
+
+          # Ищем измененные проекты по папкам верхнего уровня
+          changed_projects=""
+          for dir in $(ls -d */); do
+            if echo "$changed_files" | grep -q "^$dir"; then
+              changed_projects="$changed_projects $dir"
+            fi
+          done
+
+          # Логируем измененные проекты
+          echo "Changed projects: $changed_projects"
+
+          # Если изменений нет, завершаем действие
+          if [ -z "$changed_projects" ]; then
+            echo "No changes detected in any project"
+            exit 0
+          fi
+
+          # Сохраняем список измененных проектов для последующих шагов
+          echo "projects=$changed_projects" >> $GITHUB_OUTPUT
+
+      # Шаг 3: Выполняем деплой для каждого измененного проекта
+      - name: Deploy each project
+        if: steps.detect_changes.outputs.projects != ''
+        run: |
+          for project in ${{ steps.detect_changes.outputs.projects }}; do
+            echo "Deploying $project"
+
+            # Переходим в папку проекта
+            cd $project
+
+            # Устанавливаем зависимости
+            npm ci
+
+            # Собираем проект
+            npm run build
+
+            # Деплоим на GitHub Pages
+            npx gh-pages -d build -r https://github.com/${{ github.repository }} -b gh-pages --dest $project --message "Deploy $project"
+
+            # Возвращаемся в корень репозитория
+            cd ..
+          done
