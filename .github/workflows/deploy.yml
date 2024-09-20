@@ -59,11 +59,14 @@ jobs:
             # Собираем проект
             npm run build
 
-            git config --global user.email "sashtje.lefevre@gmail.com"
-            git config --global user.name "sashtje"
+            git config user.name "sashtje"
+            git config user.email "sashtje.lefevre@gmail.com"
+
+            # Настройка аутентификации через токен
+            git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
 
             # Деплоим на GitHub Pages
-            npx gh-pages -d build -r https://github.com/${{ github.repository }} -b gh-pages --dest $project --message "Deploy $project"
+            npx gh-pages -d build -r https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} -b gh-pages --dest $project --message "Deploy $project"
 
             # Возвращаемся в корень репозитория
             cd ..
