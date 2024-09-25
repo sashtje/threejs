@@ -12,6 +12,7 @@ import {
   EdgesGeometry,
   LineBasicMaterial,
   LineSegments,
+  Group,
 } from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { GUI } from "lil-gui";
@@ -434,7 +435,6 @@ animationSettings
 // end of settings
 
 const scene = new Scene();
-scene.add(figure);
 
 // Создаем геометрию рёбер
 const edgesGeometry = new EdgesGeometry(figure.geometry);
@@ -442,13 +442,17 @@ const edgesGeometry = new EdgesGeometry(figure.geometry);
 const edgesMaterial = new LineBasicMaterial({ color: 0xffffff });
 // Создаем линию для рёбер
 const edges = new LineSegments(edgesGeometry, edgesMaterial);
-scene.add(edges);
+
+const figureGroup = new Group();
+figureGroup.add(figure);
+figureGroup.add(edges);
+scene.add(figureGroup);
 
 figureSettings.add(settingsObject, "edges").onChange(() => {
   edges.visible = settingsObject.edges;
 });
 
-const renderer = new WebGLRenderer();
+const renderer = new WebGLRenderer({ antialias: true }); // antialias для сглаживания рёбер фигуры
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 // размер области для рисования
 renderer.setSize(sizes.width, sizes.height);
@@ -471,7 +475,7 @@ renderer.setAnimationLoop(() =>
     renderer,
     scene,
     camera,
-    figure,
+    figureGroup,
     controls,
     settingsObject.animationType
   )

@@ -14,20 +14,20 @@ const animationConfig = {
   circle: circleAnimation,
 };
 
-function rotationAnimation({ figure }) {
-  figure.rotation.x += 0.01;
-  figure.rotation.y += 0.01;
+function rotationAnimation({ figureGroup }) {
+  figureGroup.rotation.x += 0.01;
+  figureGroup.rotation.y += 0.01;
 }
 
 const clock = new Clock();
 
-function hoveringAnimation({ figure, elapsedTime }) {
-  figure.position.y = Math.sin(elapsedTime);
+function hoveringAnimation({ figureGroup, elapsedTime }) {
+  figureGroup.position.y = Math.sin(elapsedTime);
 }
 
-function circleAnimation({ figure, elapsedTime }) {
-  figure.position.y = Math.sin(elapsedTime);
-  figure.position.x = Math.cos(elapsedTime);
+function circleAnimation({ figureGroup, elapsedTime }) {
+  figureGroup.position.y = Math.sin(elapsedTime);
+  figureGroup.position.x = Math.cos(elapsedTime);
 }
 
 let prevAnimationType;
@@ -38,7 +38,7 @@ export function animate(
   renderer,
   scene,
   camera,
-  figure,
+  figureGroup,
   controls,
   animationType
 ) {
@@ -48,9 +48,9 @@ export function animate(
 
     // возвращаем фигуру и камеру в исходное положение
     // Анимация позиции фигуры
-    gsap.to(figure.position, { duration: DURATION, x: 0, y: 0, z: 0 });
+    gsap.to(figureGroup.position, { duration: DURATION, x: 0, y: 0, z: 0 });
     // Анимация вращения фигуры
-    gsap.to(figure.rotation, { duration: DURATION, x: 0, y: 0, z: 0 });
+    gsap.to(figureGroup.rotation, { duration: DURATION, x: 0, y: 0, z: 0 });
     // Анимация позиции камеры
     gsap.to(camera.position, { duration: DURATION, x: 0, y: 0, z: 7 });
     // Анимация цели OrbitControls
@@ -68,7 +68,7 @@ export function animate(
 
   const elapsedTime = clock.getElapsedTime();
   if (animationConfig[animationType] && !isAnimatingBack) {
-    animationConfig[animationType]({ figure, elapsedTime });
+    animationConfig[animationType]({ figureGroup, elapsedTime });
   }
 
   controls.update();
