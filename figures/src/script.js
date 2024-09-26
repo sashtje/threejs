@@ -18,14 +18,15 @@ import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { GUI } from "lil-gui";
 
 import { animate, animationType } from "./animation/animation";
+import { textureType, textureCollection } from "./textures/textures";
 
 // GUI
 const gui = new GUI({
   width: 300,
   title: "Settings",
-  // closeFolders: true,
+  closeFolders: true,
 });
-// gui.close();
+gui.close();
 
 window.addEventListener("keydown", (event) => {
   if (event.key === "h") {
@@ -38,8 +39,10 @@ const settingsObject = {
   bgColor: "#000000",
   type: "Box",
   color: "#28b828",
-  animationType: animationType.no,
+  wireframe: false,
   edges: true,
+  texture: textureType.no,
+  animationType: animationType.no,
   // special settings
   // box
   subdivision: 2,
@@ -151,6 +154,9 @@ const figureSettings = gui.addFolder("Figure");
 const specialSettings = gui.addFolder("Special");
 const animationSettings = gui.addFolder("Animation");
 
+let wireframeController;
+let colorController;
+
 figureSettings
   .add(settingsObject, "type", Object.keys(figureConfig))
   .onChange((event) => {
@@ -180,11 +186,45 @@ figureSettings
     edges.geometry = new EdgesGeometry(figure.geometry);
   });
 
-figureSettings.addColor(settingsObject, "color").onChange(() => {
-  material.color.set(settingsObject.color);
-});
+colorController = figureSettings
+  .addColor(settingsObject, "color")
+  .onChange(() => {
+    material.color.set(settingsObject.color);
+    figure.material = new MeshBasicMaterial({
+      color: settingsObject.color,
+      wireframe: figure.material.wireframe,
+    });
+  });
 
-figureSettings.add(material, "wireframe");
+wireframeController = figureSettings
+  .add(settingsObject, "wireframe")
+  .onChange((event) => {
+    figure.material = new MeshBasicMaterial({
+      color: settingsObject.color,
+      wireframe: event,
+    });
+  });
+
+figureSettings
+  .add(settingsObject, "texture", Object.keys(textureType))
+  .onChange((event) => {
+    const currentTexture = textureCollection[event]?.();
+    if (currentTexture) {
+      colorController.disable();
+      wireframeController.disable();
+
+      figure.material = new MeshBasicMaterial({
+        map: currentTexture,
+      });
+    } else {
+      figure.material = new MeshBasicMaterial({
+        color: settingsObject.color,
+        wireframe: settingsObject.wireframe,
+      });
+      colorController.enable();
+      wireframeController.enable();
+    }
+  });
 
 // special figure settings (разные настройки для разных фигур)
 const boxSettings = figureConfig.Box.settings;
@@ -439,9 +479,13 @@ const scene = new Scene();
 // Создаем геометрию рёбер
 const edgesGeometry = new EdgesGeometry(figure.geometry);
 // Создаем материал для рёбер
-const edgesMaterial = new LineBasicMaterial({ color: 0xffffff });
+const edgesMaterial = new LineBasicMaterial({
+  color: 0xffffff,
+});
 // Создаем линию для рёбер
 const edges = new LineSegments(edgesGeometry, edgesMaterial);
+// чтобы рёбра всегда были выше wireframe
+edges.renderOrder = 1;
 
 const figureGroup = new Group();
 figureGroup.add(figure);
@@ -513,4 +557,9 @@ window.addEventListener("dblclick", () => {
       document.webkitExitFullscreen();
     }
   }
+});
+
+const lilGuiPanel = document.querySelector(".lil-gui");
+lilGuiPanel.addEventListener("dblclick", (event) => {
+  event.stopPropagation();
 });
