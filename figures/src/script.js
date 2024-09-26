@@ -563,3 +563,9 @@ const lilGuiPanel = document.querySelector(".lil-gui");
 lilGuiPanel.addEventListener("dblclick", (event) => {
   event.stopPropagation();
 });
+lilGuiPanel.addEventListener("touchend", (event) => {
+  event.stopPropagation();
+});
+window.addEventListener("touchend", () => {
+  gui.close();
+});
