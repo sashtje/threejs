@@ -1,6 +1,7 @@
 name: Deploy to GitHub Pages
 
 on:
+  workflow_dispatch: # Добавление возможности ручного запуска
   push:
     branches:
       - main
