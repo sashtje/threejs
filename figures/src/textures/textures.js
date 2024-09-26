@@ -16,12 +16,12 @@ export const textureType = {
 };
 
 export const textureCollection = {
-  colorTexture: () => textureLoader.load("../textures/door/color.jpg"),
-  alphaTexture: () => textureLoader.load("../textures/door/alpha.jpg"),
-  heightTexture: () => textureLoader.load("../textures/door/height.jpg"),
-  normalTexture: () => textureLoader.load("../textures/door/normal.jpg"),
+  colorTexture: () => textureLoader.load("/textures/door/color.jpg"),
+  alphaTexture: () => textureLoader.load("/textures/door/alpha.jpg"),
+  heightTexture: () => textureLoader.load("/textures/door/height.jpg"),
+  normalTexture: () => textureLoader.load("/textures/door/normal.jpg"),
   ambientOcclusionTexture: () =>
-    textureLoader.load("../textures/door/ambientOcclusion.jpg"),
-  metalnessTexture: () => textureLoader.load("../textures/door/metalness.jpg"),
-  roughnessTexture: () => textureLoader.load("../textures/door/roughness.jpg"),
+    textureLoader.load("/textures/door/ambientOcclusion.jpg"),
+  metalnessTexture: () => textureLoader.load("/textures/door/metalness.jpg"),
+  roughnessTexture: () => textureLoader.load("/textures/door/roughness.jpg"),
 };
