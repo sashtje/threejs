@@ -79,21 +79,6 @@ const sizes = {
   height: window.innerHeight,
 };
 
-const camera = new PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 1000);
-camera.position.z = 7;
-
-const geometry = new BoxGeometry(1, 1, 1);
-const material = new MeshBasicMaterial({ color: settingsObject.color });
-let figure = new Mesh(geometry, material);
-
-// settings
-gui
-  .addColor(settingsObject, "bgColor")
-  .onChange(() => {
-    renderer.setClearColor(settingsObject.bgColor);
-  })
-  .name("background");
-
 const figureConfig = {
   Box: {
     constructor: BoxGeometry,
@@ -149,6 +134,21 @@ const figureConfig = {
     settings: [],
   },
 };
+
+const camera = new PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 1000);
+camera.position.z = 7;
+
+const geometry = new BoxGeometry(...figureConfig.Box.args);
+const material = new MeshBasicMaterial({ color: settingsObject.color });
+let figure = new Mesh(geometry, material);
+
+// settings
+gui
+  .addColor(settingsObject, "bgColor")
+  .onChange(() => {
+    renderer.setClearColor(settingsObject.bgColor);
+  })
+  .name("background");
 
 const figureSettings = gui.addFolder("Figure");
 const specialSettings = gui.addFolder("Special");
