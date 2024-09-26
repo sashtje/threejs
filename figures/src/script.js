@@ -142,7 +142,7 @@ const geometry = new BoxGeometry(...figureConfig.Box.args);
 const material = new MeshBasicMaterial({ color: settingsObject.color });
 let figure = new Mesh(geometry, material);
 
-// settings
+// gui settings
 gui
   .addColor(settingsObject, "bgColor")
   .onChange(() => {
