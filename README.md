@@ -9,4 +9,6 @@ Experiments with three.js
       - to choose figure type, texture and animation,
       - to turn on wireframe and figure edges,
       - to change specific figure settings
-2. 
+2. **triangles** - [[can be seen here](https://sashtje.github.io/threejs/triangles/)]
+      Just random triangles with random colors
+3. 
