@@ -77,10 +77,7 @@ firstPartGroup.position.set(-0.5, 0, 0);
 
 const firstPartPivot = new THREE.Object3D();
 firstPartPivot.add(firstPartGroup);
-
-const firstPart = new THREE.Group();
-firstPart.add(firstPartPivot);
-firstPart.position.set(-0.51, 0.5, -0.51);
+firstPartPivot.position.set(-0.51, 0.5, -0.51);
 
 // second
 const secondPartGroup = createCubeSurfacePart();
@@ -88,10 +85,7 @@ secondPartGroup.position.set(0, 0.5, 0);
 
 const secondPartPivot = new THREE.Object3D();
 secondPartPivot.add(secondPartGroup);
-
-const secondPart = new THREE.Group();
-secondPart.add(secondPartPivot);
-secondPart.position.set(0, 1.01, -0.51);
+secondPartPivot.position.set(0, 1.01, -0.51);
 
 // third
 const thirdPartGroup = createCubeSurfacePart();
@@ -99,10 +93,7 @@ thirdPartGroup.position.set(0.5, 0, 0);
 
 const thirdPartPivot = new THREE.Object3D();
 thirdPartPivot.add(thirdPartGroup);
-
-const thirdPart = new THREE.Group();
-thirdPart.add(thirdPartPivot);
-thirdPart.position.set(0.51, 0.5, -0.51);
+thirdPartPivot.position.set(0.51, 0.5, -0.51);
 
 // fourth
 const fourthPartGroup = createCubeSurfacePart();
@@ -110,25 +101,17 @@ fourthPartGroup.position.set(0, -0.5, 0);
 
 const fourthPartPivot = new THREE.Object3D();
 fourthPartPivot.add(fourthPartGroup);
-
-const fourthPart = new THREE.Group();
-fourthPart.add(fourthPartPivot);
-fourthPart.position.set(0, -0.01, -0.51);
+fourthPartPivot.position.set(0, -0.01, -0.51);
 
 // fifth
 const fifthPartGroup = createCubeSurfacePart();
 fifthPartGroup.position.set(0, -1.5, 0);
 
 const fifthNewPivot = new THREE.Object3D();
-const fifthNewGroup = new THREE.Group();
 const fifthPartPivot = new THREE.Object3D();
 fifthPartPivot.add(fifthPartGroup);
 
 fifthPartPivot.position.set(0, -0.01, -0.51);
-
-// const fifthPart = new THREE.Group();
-// fifthPart.add(fifthPartPivot);
-// fifthPart.position.set(0, -0.01, -0.51);
 
 // sixth
 const sixthPart = createCubeSurfacePart();
@@ -175,9 +158,8 @@ timeline
         fifthNewPivot.add(fifthPartGroup);
         fifthPartGroup.position.set(0, -0.5, 0);
 
-        fifthNewGroup.add(fifthNewPivot);
-        fifthNewGroup.rotation.x = -Math.PI / 2;
-        fifthNewGroup.position.set(0, -0.01, 0.51);
+        fifthNewPivot.rotation.x = -Math.PI / 2;
+        fifthNewPivot.position.set(0, -0.01, 0.51);
       },
     },
     "<"
@@ -186,7 +168,8 @@ timeline
     fifthNewPivot.rotation,
     {
       duration: DURATION,
-      x: -Math.PI / 2,
+      // x: -Math.PI / 2,
+      x: -Math.PI,
     },
     ">"
   );
@@ -284,14 +267,13 @@ timeline
 const group = new THREE.Group();
 group.add(cube);
 group.add(plane);
-group.add(firstPart);
-group.add(secondPart);
-group.add(thirdPart);
-group.add(fourthPart);
+group.add(firstPartPivot);
+group.add(secondPartPivot);
+group.add(thirdPartPivot);
+group.add(fourthPartPivot);
 group.add(fifthPartPivot);
 group.add(sixthPart);
 group.add(fifthNewPivot);
-group.add(fifthNewGroup);
 group.add(fifthBackPivot);
 group.add(fifthBackGroup);
 scene.add(group);
