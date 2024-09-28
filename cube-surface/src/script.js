@@ -77,13 +77,6 @@ firstPartGroup.position.set(-0.5, 0, 0);
 
 const firstPartPivot = new THREE.Object3D();
 firstPartPivot.add(firstPartGroup);
-gsap.to(firstPartPivot.rotation, {
-  delay: DELAY,
-  duration: DURATION,
-  x: 0,
-  y: Math.PI / 2,
-  z: 0,
-});
 
 const firstPart = new THREE.Group();
 firstPart.add(firstPartPivot);
@@ -95,13 +88,6 @@ secondPartGroup.position.set(0, 0.5, 0);
 
 const secondPartPivot = new THREE.Object3D();
 secondPartPivot.add(secondPartGroup);
-gsap.to(secondPartPivot.rotation, {
-  delay: DELAY + DURATION,
-  duration: DURATION,
-  x: Math.PI / 2,
-  y: 0,
-  z: 0,
-});
 
 const secondPart = new THREE.Group();
 secondPart.add(secondPartPivot);
@@ -113,13 +99,6 @@ thirdPartGroup.position.set(0.5, 0, 0);
 
 const thirdPartPivot = new THREE.Object3D();
 thirdPartPivot.add(thirdPartGroup);
-gsap.to(thirdPartPivot.rotation, {
-  delay: DELAY + DURATION * 2,
-  duration: DURATION,
-  x: 0,
-  y: -Math.PI / 2,
-  z: 0,
-});
 
 const thirdPart = new THREE.Group();
 thirdPart.add(thirdPartPivot);
@@ -131,14 +110,6 @@ fourthPartGroup.position.set(0, -0.5, 0);
 
 const fourthPartPivot = new THREE.Object3D();
 fourthPartPivot.add(fourthPartGroup);
-
-gsap.to(fourthPartPivot.rotation, {
-  delay: DELAY + DURATION * 3,
-  duration: DURATION,
-  x: -Math.PI / 2,
-  y: 0,
-  z: 0,
-});
 
 const fourthPart = new THREE.Group();
 fourthPart.add(fourthPartPivot);
@@ -152,36 +123,163 @@ const fifthNewPivot = new THREE.Object3D();
 const fifthNewGroup = new THREE.Group();
 const fifthPartPivot = new THREE.Object3D();
 fifthPartPivot.add(fifthPartGroup);
-gsap.to(fifthPartPivot.rotation, {
-  delay: DELAY + DURATION * 3,
-  duration: DURATION,
-  x: -Math.PI / 2,
-  y: 0,
-  z: 0,
-  onComplete: () => {
-    fifthNewPivot.add(fifthPartGroup);
-    fifthPartGroup.position.set(0, -0.5, 0);
-    gsap.to(fifthNewPivot.rotation, {
-      duration: DURATION,
-      x: -Math.PI / 2,
-      y: 0,
-      z: 0,
-    });
 
-    fifthNewGroup.add(fifthNewPivot);
-    fifthNewGroup.rotation.x = -Math.PI / 2;
-    fifthNewGroup.position.set(0, -0.01, 0.51);
-  },
-});
+fifthPartPivot.position.set(0, -0.01, -0.51);
 
-const fifthPart = new THREE.Group();
-fifthPart.add(fifthPartPivot);
-fifthPart.position.set(0, -0.01, -0.51);
+// const fifthPart = new THREE.Group();
+// fifthPart.add(fifthPartPivot);
+// fifthPart.position.set(0, -0.01, -0.51);
 
 // sixth
 const sixthPart = createCubeSurfacePart();
 sixthPart.position.z = -0.51;
 sixthPart.position.y = 0.5;
+
+const timeline = gsap.timeline({ repeat: -1, repeatDelay: 1 });
+
+timeline
+  .to(firstPartPivot.rotation, {
+    duration: DURATION,
+    y: Math.PI / 2,
+  })
+  .to(
+    secondPartPivot.rotation,
+    {
+      duration: DURATION,
+      x: Math.PI / 2,
+    },
+    ">"
+  )
+  .to(
+    thirdPartPivot.rotation,
+    {
+      duration: DURATION,
+      y: -Math.PI / 2,
+    },
+    ">"
+  )
+  .to(
+    fourthPartPivot.rotation,
+    {
+      duration: DURATION,
+      x: -Math.PI / 2,
+    },
+    ">"
+  )
+  .to(
+    fifthPartPivot.rotation,
+    {
+      duration: DURATION,
+      x: -Math.PI / 2,
+      onComplete: () => {
+        fifthNewPivot.add(fifthPartGroup);
+        fifthPartGroup.position.set(0, -0.5, 0);
+
+        fifthNewGroup.add(fifthNewPivot);
+        fifthNewGroup.rotation.x = -Math.PI / 2;
+        fifthNewGroup.position.set(0, -0.01, 0.51);
+      },
+    },
+    "<"
+  )
+  .to(
+    fifthNewPivot.rotation,
+    {
+      duration: DURATION,
+      x: -Math.PI / 2,
+    },
+    ">"
+  );
+
+const fifthBackPivot = new THREE.Object3D();
+const fifthBackGroup = new THREE.Group();
+
+timeline
+  .to(fifthNewPivot.rotation, {
+    delay: DELAY,
+    duration: DURATION,
+    x: 0,
+    onComplete: () => {
+      fifthBackPivot.add(fifthPartGroup);
+      fifthPartGroup.position.set(0, -1.5, 0);
+
+      fifthBackGroup.add(fifthBackPivot);
+      fifthBackGroup.rotation.x = -Math.PI / 2;
+      fifthBackGroup.position.set(0, +0.01, -0.51);
+    },
+  })
+  .to(
+    fifthBackPivot.rotation,
+    {
+      duration: DURATION,
+      x: Math.PI / 2,
+      onComplete: () => {
+        // fifthPartPivot.rotation.x = 0;
+        // fifthPart.position.set(0, -0.01, -0.51);
+        // fifthNewPivot.remove(fifthPartGroup);
+        // fifthNewGroup.remove(fifthNewPivot);
+        // fifthBackPivot.remove(fifthPartGroup);
+        // fifthBackGroup.remove(fifthBackPivot);
+        // group.remove(fifthNewPivot);
+        // group.remove(fifthNewGroup);
+        // group.remove(fifthBackPivot);
+        // group.remove(fifthBackGroup);
+        // fifthPart.position.set(
+        //   initialPosition.x,
+        //   initialPosition.y,
+        //   initialPosition.z
+        // );
+        // fifthPart.rotation.set(
+        //   initialRotation.x,
+        //   initialRotation.y,
+        //   initialRotation.z
+        // );
+        // fifthPartPivot.position.set(0, 0, 0);
+        // fifthPartPivot.rotation.set(0, 0, 0);
+        // fifthPartGroup.position.set(0, 0, 0);
+        // fifthPartGroup.rotation.set(0, 0, 0);
+        // fifthNewPivot.position.set(0, 0, 0);
+        // fifthNewPivot.rotation.set(0, 0, 0);
+        // fifthNewGroup.position.set(0, 0, 0);
+        // fifthNewGroup.rotation.set(0, 0, 0);
+        // fifthBackGroup.position.set(0, 0, 0);
+        // fifthBackGroup.rotation.set(0, 0, 0);
+      },
+    },
+    ">"
+  )
+  .to(
+    fourthPartPivot.rotation,
+    {
+      duration: DURATION,
+      x: 0,
+    },
+    "<"
+  )
+  .to(
+    thirdPartPivot.rotation,
+    {
+      duration: DURATION,
+      y: 0,
+    },
+    ">"
+  )
+  .to(
+    secondPartPivot.rotation,
+    {
+      duration: DURATION,
+      x: 0,
+    },
+    ">"
+  )
+  .to(
+    firstPartPivot.rotation,
+    {
+      duration: DURATION,
+      y: 0,
+    },
+    ">"
+  );
 
 const group = new THREE.Group();
 group.add(cube);
@@ -190,10 +288,12 @@ group.add(firstPart);
 group.add(secondPart);
 group.add(thirdPart);
 group.add(fourthPart);
-group.add(fifthPart);
+group.add(fifthPartPivot);
 group.add(sixthPart);
 group.add(fifthNewPivot);
 group.add(fifthNewGroup);
+group.add(fifthBackPivot);
+group.add(fifthBackGroup);
 scene.add(group);
 
 group.rotation.x = -Math.PI / 2.5;
