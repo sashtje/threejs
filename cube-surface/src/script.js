@@ -107,10 +107,8 @@ fourthPartPivot.position.set(0, -0.01, -0.51);
 const fifthPartGroup = createCubeSurfacePart();
 fifthPartGroup.position.set(0, -1.5, 0);
 
-const fifthNewPivot = new THREE.Object3D();
 const fifthPartPivot = new THREE.Object3D();
 fifthPartPivot.add(fifthPartGroup);
-
 fifthPartPivot.position.set(0, -0.01, -0.51);
 
 // sixth
@@ -120,6 +118,7 @@ sixthPart.position.y = 0.5;
 
 const timeline = gsap.timeline({ repeat: -1, repeatDelay: 1 });
 
+// animation forward
 timeline
   .to(firstPartPivot.rotation, {
     duration: DURATION,
@@ -155,79 +154,37 @@ timeline
       duration: DURATION,
       x: -Math.PI / 2,
       onComplete: () => {
-        fifthNewPivot.add(fifthPartGroup);
         fifthPartGroup.position.set(0, -0.5, 0);
-
-        fifthNewPivot.rotation.x = -Math.PI / 2;
-        fifthNewPivot.position.set(0, -0.01, 0.51);
+        fifthPartPivot.position.set(0, 0, 0.51);
       },
     },
     "<"
   )
   .to(
-    fifthNewPivot.rotation,
+    fifthPartPivot.rotation,
     {
       duration: DURATION,
-      // x: -Math.PI / 2,
       x: -Math.PI,
     },
     ">"
   );
 
-const fifthBackPivot = new THREE.Object3D();
-const fifthBackGroup = new THREE.Group();
-
+// animation backward
 timeline
-  .to(fifthNewPivot.rotation, {
+  .to(fifthPartPivot.rotation, {
     delay: DELAY,
     duration: DURATION,
-    x: 0,
+    x: -Math.PI / 2,
     onComplete: () => {
-      fifthBackPivot.add(fifthPartGroup);
       fifthPartGroup.position.set(0, -1.5, 0);
-
-      fifthBackGroup.add(fifthBackPivot);
-      fifthBackGroup.rotation.x = -Math.PI / 2;
-      fifthBackGroup.position.set(0, +0.01, -0.51);
+      fifthPartPivot.position.set(0, -0.01, -0.51);
     },
   })
   .to(
-    fifthBackPivot.rotation,
+    fifthPartPivot.rotation,
     {
       duration: DURATION,
-      x: Math.PI / 2,
-      onComplete: () => {
-        // fifthPartPivot.rotation.x = 0;
-        // fifthPart.position.set(0, -0.01, -0.51);
-        // fifthNewPivot.remove(fifthPartGroup);
-        // fifthNewGroup.remove(fifthNewPivot);
-        // fifthBackPivot.remove(fifthPartGroup);
-        // fifthBackGroup.remove(fifthBackPivot);
-        // group.remove(fifthNewPivot);
-        // group.remove(fifthNewGroup);
-        // group.remove(fifthBackPivot);
-        // group.remove(fifthBackGroup);
-        // fifthPart.position.set(
-        //   initialPosition.x,
-        //   initialPosition.y,
-        //   initialPosition.z
-        // );
-        // fifthPart.rotation.set(
-        //   initialRotation.x,
-        //   initialRotation.y,
-        //   initialRotation.z
-        // );
-        // fifthPartPivot.position.set(0, 0, 0);
-        // fifthPartPivot.rotation.set(0, 0, 0);
-        // fifthPartGroup.position.set(0, 0, 0);
-        // fifthPartGroup.rotation.set(0, 0, 0);
-        // fifthNewPivot.position.set(0, 0, 0);
-        // fifthNewPivot.rotation.set(0, 0, 0);
-        // fifthNewGroup.position.set(0, 0, 0);
-        // fifthNewGroup.rotation.set(0, 0, 0);
-        // fifthBackGroup.position.set(0, 0, 0);
-        // fifthBackGroup.rotation.set(0, 0, 0);
-      },
+      x: 0,
     },
     ">"
   )
@@ -273,9 +230,6 @@ group.add(thirdPartPivot);
 group.add(fourthPartPivot);
 group.add(fifthPartPivot);
 group.add(sixthPart);
-group.add(fifthNewPivot);
-group.add(fifthBackPivot);
-group.add(fifthBackGroup);
 scene.add(group);
 
 group.rotation.x = -Math.PI / 2.5;
