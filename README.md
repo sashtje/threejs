@@ -12,4 +12,7 @@ Experiments with three.js
 2. **triangles** - [[can be seen here](https://sashtje.github.io/threejs/triangles/)]
    
       Just random triangles with random colors
-3. 
+3. **cube-surface** - [[can be seen here](https://sashtje.github.io/threejs/cube-surface/)]
+
+      Animation of cube wrapping forward and backward in cycle
+4. 
