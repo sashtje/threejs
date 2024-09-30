@@ -50,6 +50,7 @@ camera.position.y = 1;
 const sphereGeometry = new THREE.SphereGeometry(1, 64, 32);
 const rainbowMaterial = new THREE.MeshNormalMaterial({
   flatShading: true,
+  side: THREE.DoubleSide,
 });
 const rainbowSphere = new THREE.Mesh(sphereGeometry, rainbowMaterial);
 
@@ -62,7 +63,7 @@ const rainbowSphereSettings = {
 
 // matcap torus
 const torusGeometry = new THREE.TorusGeometry(1, 0.5, 16, 100);
-const matcapMaterial = new THREE.MeshMatcapMaterial();
+const matcapMaterial = new THREE.MeshMatcapMaterial({ side: THREE.DoubleSide });
 const matcapTorus = new THREE.Mesh(torusGeometry, matcapMaterial);
 matcapTorus.position.y = -3;
 matcapTorus.rotation.y = -Math.PI / 5;
@@ -77,7 +78,9 @@ const matcapTorusSettings = {
 };
 
 // metal sphere
-const metalMaterial = new THREE.MeshStandardMaterial();
+const metalMaterial = new THREE.MeshStandardMaterial({
+  side: THREE.DoubleSide,
+});
 metalMaterial.metalness = 0.7;
 metalMaterial.roughness = 0.2;
 const metalSphere = new THREE.Mesh(sphereGeometry, metalMaterial);
@@ -94,7 +97,9 @@ mirror.position.y = 2.5;
 mirror.rotation.y = -Math.PI / 8;
 
 // fabric sphere
-const fabricMaterial = new THREE.MeshPhysicalMaterial();
+const fabricMaterial = new THREE.MeshPhysicalMaterial({
+  side: THREE.DoubleSide,
+});
 fabricMaterial.sheen = 1;
 fabricMaterial.sheenRoughness = 0.25;
 fabricMaterial.sheenColor.set(1, 1, 1);
@@ -113,7 +118,10 @@ const fabricSphereSettings = {
 
 // amber box
 const boxGeometry = new THREE.BoxGeometry(1.5, 1.5, 1.5);
-const amberMaterial = new THREE.MeshPhysicalMaterial({ color: "#ffbf00" });
+const amberMaterial = new THREE.MeshPhysicalMaterial({
+  color: "#ffbf00",
+  side: THREE.DoubleSide,
+});
 const amberBox = new THREE.Mesh(boxGeometry, amberMaterial);
 
 amberMaterial.transmission = 1;
