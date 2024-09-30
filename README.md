@@ -18,3 +18,7 @@ Experiments with three.js
 4. **basic-materials** - [[can be seen here](https://sashtje.github.io/threejs/basic-materials/)]
 
       Different built-in materials with settings
+5. **text** - [[can be seen here](https://sashtje.github.io/threejs/text/)]
+
+      3D text with many toruses of different materials
+6. 
