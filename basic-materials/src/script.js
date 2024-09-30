@@ -13,10 +13,6 @@ const loadingManager = new THREE.LoadingManager();
 
 const textureLoader = new THREE.TextureLoader(loadingManager);
 
-// const colorTexture = textureLoader.load(
-//   getAbsoluteUrl("textures/door/color.jpg")
-// );
-
 // GUI
 const gui = new GUI({
   width: 300,
