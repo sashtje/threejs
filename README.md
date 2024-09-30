@@ -15,4 +15,6 @@ Experiments with three.js
 3. **cube-surface** - [[can be seen here](https://sashtje.github.io/threejs/cube-surface/)]
 
       Animation of cube wrapping forward and backward in cycle
-4. 
+4. **basic-materials** - [[can be seen here](https://sashtje.github.io/threejs/basic-materials/)]
+
+      Different built-in materials with settings
