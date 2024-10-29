@@ -6,8 +6,12 @@ import { FontLoader } from "three/addons/loaders/FontLoader.js";
 import { TextGeometry } from "three/addons/geometries/TextGeometry.js";
 import GUI from "lil-gui";
 
+import { getAbsoluteUrl } from "./utils/getAbsoluteUrl";
+
 const GUI_HASH = "#debug";
 const hash = window.location.hash;
+
+const baseURL = import.meta.env.BASE_URL;
 
 // Debug
 const gui = new GUI({
@@ -56,16 +60,20 @@ const canvas = document.querySelector("canvas.webgl");
 const textureLoader = new THREE.TextureLoader();
 
 // Grass textures
-const grassColorTexture = textureLoader.load("/textures/grass/albedo.png");
-const grassAmbientOcclusionTexture = textureLoader.load(
-  "/textures/grass/ao.png"
+const grassColorTexture = textureLoader.load(
+  getAbsoluteUrl(baseURL, "textures/grass/albedo.png")
 );
-const grassNormalTexture = textureLoader.load("/textures/grass/normal-ogl.png");
+const grassAmbientOcclusionTexture = textureLoader.load(
+  getAbsoluteUrl(baseURL, "textures/grass/ao.png")
+);
+const grassNormalTexture = textureLoader.load(
+  getAbsoluteUrl(baseURL, "textures/grass/normal-ogl.png")
+);
 const grassRoughnessTexture = textureLoader.load(
-  "/textures/grass/roughness.png"
+  getAbsoluteUrl(baseURL, "textures/grass/roughness.png")
 );
 const grassDisplacementTexture = textureLoader.load(
-  "/textures/grass/height.png"
+  getAbsoluteUrl(baseURL, "textures/grass/height.png")
 );
 
 // Повторить текстуру 10x10 раз по поверхности
@@ -93,20 +101,30 @@ grassDisplacementTexture.repeat.set(grassRepeatCount, grassRepeatCount);
 
 // Basement textures
 const basementColorTexture = textureLoader.load(
-  "/textures/basement/albedo.jpg"
+  getAbsoluteUrl(baseURL, "textures/basement/albedo.jpg")
 );
-const basementARMTexture = textureLoader.load("/textures/basement/arm.jpg");
+const basementARMTexture = textureLoader.load(
+  getAbsoluteUrl(baseURL, "textures/basement/arm.jpg")
+);
 const basementNormalTexture = textureLoader.load(
-  "/textures/basement/normal.jpg"
+  getAbsoluteUrl(baseURL, "textures/basement/normal.jpg")
 );
-const basementBumpTexture = textureLoader.load("/textures/basement/bump.jpg");
+const basementBumpTexture = textureLoader.load(
+  getAbsoluteUrl(baseURL, "textures/basement/bump.jpg")
+);
 
 basementColorTexture.colorSpace = THREE.SRGBColorSpace;
 
 // Floor textures
-const floorColorTexture = textureLoader.load("/textures/floor/albedo.jpg");
-const floorARMTexture = textureLoader.load("/textures/floor/arm.jpg");
-const floorNormalTexture = textureLoader.load("/textures/floor/normal.jpg");
+const floorColorTexture = textureLoader.load(
+  getAbsoluteUrl(baseURL, "textures/floor/albedo.jpg")
+);
+const floorARMTexture = textureLoader.load(
+  getAbsoluteUrl(baseURL, "textures/floor/arm.jpg")
+);
+const floorNormalTexture = textureLoader.load(
+  getAbsoluteUrl(baseURL, "textures/floor/normal.jpg")
+);
 
 const floorRepeatCount = 4;
 floorColorTexture.wrapS = THREE.RepeatWrapping;
@@ -123,11 +141,21 @@ floorNormalTexture.wrapT = THREE.RepeatWrapping;
 floorNormalTexture.repeat.set(floorRepeatCount, floorRepeatCount);
 
 // Road textures
-const roadColorTexture = textureLoader.load("/textures/road/albedo.jpg");
-const roadARMTexture = textureLoader.load("/textures/road/arm.jpg");
-const roadNormalTexture = textureLoader.load("/textures/road/normal.jpg");
-const roadDisplacementTexture = textureLoader.load("/textures/road/height.jpg");
-const roadBumpTexture = textureLoader.load("/textures/road/bump.jpg");
+const roadColorTexture = textureLoader.load(
+  getAbsoluteUrl(baseURL, "textures/road/albedo.jpg")
+);
+const roadARMTexture = textureLoader.load(
+  getAbsoluteUrl(baseURL, "textures/road/arm.jpg")
+);
+const roadNormalTexture = textureLoader.load(
+  getAbsoluteUrl(baseURL, "textures/road/normal.jpg")
+);
+const roadDisplacementTexture = textureLoader.load(
+  getAbsoluteUrl(baseURL, "textures/road/height.jpg")
+);
+const roadBumpTexture = textureLoader.load(
+  getAbsoluteUrl(baseURL, "textures/road/bump.jpg")
+);
 
 const roadRepeatCountX = 1;
 const roadRepeatCountZ = 5;
@@ -153,52 +181,68 @@ roadBumpTexture.wrapT = THREE.RepeatWrapping;
 roadBumpTexture.repeat.set(roadRepeatCountX, roadRepeatCountZ);
 
 // Wall textures
-const wallColorTexture = textureLoader.load("/textures/wall/albedo.jpg");
-const wallARMTexture = textureLoader.load("/textures/wall/arm.jpg");
-const wallNormalTexture = textureLoader.load("/textures/wall/normal.jpg");
+const wallColorTexture = textureLoader.load(
+  getAbsoluteUrl(baseURL, "textures/wall/albedo.jpg")
+);
+const wallARMTexture = textureLoader.load(
+  getAbsoluteUrl(baseURL, "textures/wall/arm.jpg")
+);
+const wallNormalTexture = textureLoader.load(
+  getAbsoluteUrl(baseURL, "textures/wall/normal.jpg")
+);
 
 wallColorTexture.colorSpace = THREE.SRGBColorSpace;
 
+const wallBigRepeatCountX = 4;
+const wallBigRepeatCountZ = 2.5;
 const wallColorTextureBig = wallColorTexture.clone();
 
 wallColorTextureBig.wrapS = THREE.RepeatWrapping;
 wallColorTextureBig.wrapT = THREE.RepeatWrapping;
-wallColorTextureBig.repeat.set(4, 2.5);
+wallColorTextureBig.repeat.set(wallBigRepeatCountX, wallBigRepeatCountZ);
 
 const wallARMTextureBig = wallARMTexture.clone();
 
 wallARMTextureBig.wrapS = THREE.RepeatWrapping;
 wallARMTextureBig.wrapT = THREE.RepeatWrapping;
-wallARMTextureBig.repeat.set(4, 2.5);
+wallARMTextureBig.repeat.set(wallBigRepeatCountX, wallBigRepeatCountZ);
 
 const wallNormalTextureBig = wallNormalTexture.clone();
 
 wallNormalTextureBig.wrapS = THREE.RepeatWrapping;
 wallNormalTextureBig.wrapT = THREE.RepeatWrapping;
-wallNormalTextureBig.repeat.set(4, 2.5);
+wallNormalTextureBig.repeat.set(wallBigRepeatCountX, wallBigRepeatCountZ);
 
+const wallSmallRepeatCountX = 4;
+const wallSmallRepeatCountZ = 0.72;
 const wallColorTextureSmall = wallColorTexture.clone();
 
 wallColorTextureSmall.wrapS = THREE.RepeatWrapping;
 wallColorTextureSmall.wrapT = THREE.RepeatWrapping;
-wallColorTextureSmall.repeat.set(4, 0.72);
+wallColorTextureSmall.repeat.set(wallSmallRepeatCountX, wallSmallRepeatCountZ);
 
 const wallARMTextureSmall = wallARMTexture.clone();
 
 wallARMTextureSmall.wrapS = THREE.RepeatWrapping;
 wallARMTextureSmall.wrapT = THREE.RepeatWrapping;
-wallARMTextureSmall.repeat.set(4, 0.72);
+wallARMTextureSmall.repeat.set(wallSmallRepeatCountX, wallSmallRepeatCountZ);
 
 const wallNormalTextureSmall = wallNormalTexture.clone();
 
 wallNormalTextureSmall.wrapS = THREE.RepeatWrapping;
 wallNormalTextureSmall.wrapT = THREE.RepeatWrapping;
-wallNormalTextureSmall.repeat.set(4, 0.72);
+wallNormalTextureSmall.repeat.set(wallSmallRepeatCountX, wallSmallRepeatCountZ);
 
 // Roof textures
-const roofColorTexture = textureLoader.load("/textures/roof/albedo.jpg");
-const roofARMTexture = textureLoader.load("/textures/roof/arm.jpg");
-const roofNormalTexture = textureLoader.load("/textures/roof/normal.jpg");
+const roofColorTexture = textureLoader.load(
+  getAbsoluteUrl(baseURL, "textures/roof/albedo.jpg")
+);
+const roofARMTexture = textureLoader.load(
+  getAbsoluteUrl(baseURL, "textures/roof/arm.jpg")
+);
+const roofNormalTexture = textureLoader.load(
+  getAbsoluteUrl(baseURL, "textures/roof/normal.jpg")
+);
 
 roofColorTexture.colorSpace = THREE.SRGBColorSpace;
 
@@ -218,13 +262,27 @@ roofNormalTexture.repeat.set(5, 1.5);
 roofNormalTexture.rotation = -Math.PI / 22;
 
 // Door textures
-const doorColorTexture = textureLoader.load("/textures/door/albedo.jpg");
-const doorAmbientOcclusionTexture = textureLoader.load("/textures/door/ao.jpg");
-const doorNormalTexture = textureLoader.load("/textures/door/normal.jpg");
-const doorRoughnessTexture = textureLoader.load("/textures/door/roughness.jpg");
-const doorDisplacementTexture = textureLoader.load("/textures/door/height.png");
-const doorOpacityTexture = textureLoader.load("/textures/door/opacity.jpg");
-const doorMetallicTexture = textureLoader.load("/textures/door/metallic.jpg");
+const doorColorTexture = textureLoader.load(
+  getAbsoluteUrl(baseURL, "textures/door/albedo.jpg")
+);
+const doorAmbientOcclusionTexture = textureLoader.load(
+  getAbsoluteUrl(baseURL, "textures/door/ao.jpg")
+);
+const doorNormalTexture = textureLoader.load(
+  getAbsoluteUrl(baseURL, "textures/door/normal.jpg")
+);
+const doorRoughnessTexture = textureLoader.load(
+  getAbsoluteUrl(baseURL, "textures/door/roughness.jpg")
+);
+const doorDisplacementTexture = textureLoader.load(
+  getAbsoluteUrl(baseURL, "textures/door/height.png")
+);
+const doorOpacityTexture = textureLoader.load(
+  getAbsoluteUrl(baseURL, "textures/door/opacity.jpg")
+);
+const doorMetallicTexture = textureLoader.load(
+  getAbsoluteUrl(baseURL, "textures/door/metallic.jpg")
+);
 
 doorColorTexture.colorSpace = THREE.SRGBColorSpace;
 
@@ -258,20 +316,26 @@ doorMetallicTextureMirrored.repeat.set(-1, 1);
 doorMetallicTextureMirrored.center.set(0.5, 0.5);
 
 // Window textures
-const windowColorTexture = textureLoader.load("/textures/window/albedo.jpg");
-const windowAmbientOcclusionTexture = textureLoader.load(
-  "/textures/window/ao.jpg"
+const windowColorTexture = textureLoader.load(
+  getAbsoluteUrl(baseURL, "textures/window/albedo.jpg")
 );
-const windowNormalTexture = textureLoader.load("/textures/window/normal.jpg");
+const windowAmbientOcclusionTexture = textureLoader.load(
+  getAbsoluteUrl(baseURL, "textures/window/ao.jpg")
+);
+const windowNormalTexture = textureLoader.load(
+  getAbsoluteUrl(baseURL, "textures/window/normal.jpg")
+);
 const windowRoughnessTexture = textureLoader.load(
-  "/textures/window/roughness.jpg"
+  getAbsoluteUrl(baseURL, "textures/window/roughness.jpg")
 );
 const windowDisplacementTexture = textureLoader.load(
-  "/textures/window/height.png"
+  getAbsoluteUrl(baseURL, "textures/window/height.png")
 );
-const windowOpacityTexture = textureLoader.load("/textures/window/opacity.jpg");
+const windowOpacityTexture = textureLoader.load(
+  getAbsoluteUrl(baseURL, "textures/window/opacity.jpg")
+);
 const windowMetallicTexture = textureLoader.load(
-  "/textures/window/metallic.jpg"
+  getAbsoluteUrl(baseURL, "textures/window/metallic.jpg")
 );
 
 windowColorTexture.colorSpace = THREE.SRGBColorSpace;
@@ -281,7 +345,9 @@ const gltfLoader = new GLTFLoader();
 const fbxLoader = new FBXLoader();
 const fontLoader = new FontLoader();
 
-const matcapTexture = textureLoader.load("/matcaps/7.png");
+const matcapTexture = textureLoader.load(
+  getAbsoluteUrl(baseURL, "matcaps/7.png")
+);
 
 const sizes = {
   width: window.innerWidth,
@@ -805,104 +871,125 @@ roof.position.y = grassHeight + basementY + houseY + roofHeight / 2;
 house.add(roof);
 
 // models inside house
-gltfLoader.load("/models/furniture/loungeSofa.glb", (gltf) => {
-  const sofa = gltf.scene.children[0];
-  sofa.scale.set(1.5, 1.5, 1.5);
-  sofa.rotation.y = Math.PI / 2;
-  sofa.position.set(-1.3, grassHeight + basementY + floorHeight, 0);
-  scene.add(sofa);
+gltfLoader.load(
+  getAbsoluteUrl(baseURL, "models/furniture/loungeSofa.glb"),
+  (gltf) => {
+    const sofa = gltf.scene.children[0];
+    sofa.scale.set(1.5, 1.5, 1.5);
+    sofa.rotation.y = Math.PI / 2;
+    sofa.position.set(-1.3, grassHeight + basementY + floorHeight, 0);
+    scene.add(sofa);
 
-  enableShadowsForGroup({ group: sofa, receive: true, cast: true });
-});
+    enableShadowsForGroup({ group: sofa, receive: true, cast: true });
+  }
+);
 
-gltfLoader.load("/models/furniture/rugRectangle.glb", (gltf) => {
-  const rugRectangle = gltf.scene.children[0];
-  rugRectangle.scale.set(1.5, 1.5, 1.5);
-  rugRectangle.rotation.y = Math.PI / 2;
-  rugRectangle.position.set(0.2, grassHeight + basementY + floorHeight, 0.5);
-  scene.add(rugRectangle);
+gltfLoader.load(
+  getAbsoluteUrl(baseURL, "models/furniture/rugRectangle.glb"),
+  (gltf) => {
+    const rugRectangle = gltf.scene.children[0];
+    rugRectangle.scale.set(1.5, 1.5, 1.5);
+    rugRectangle.rotation.y = Math.PI / 2;
+    rugRectangle.position.set(0.2, grassHeight + basementY + floorHeight, 0.5);
+    scene.add(rugRectangle);
 
-  enableShadowsForGroup({ group: rugRectangle, receive: true, cast: true });
-});
+    enableShadowsForGroup({ group: rugRectangle, receive: true, cast: true });
+  }
+);
 
-gltfLoader.load("/models/furniture/table.glb", (gltf) => {
-  const table = gltf.scene.children[0];
-  table.scale.set(1.5, 1.5, 1.5);
-  table.rotation.y = Math.PI / 2;
-  table.position.set(-0.1, grassHeight + basementY + floorHeight, -0.1);
-  scene.add(table);
+gltfLoader.load(
+  getAbsoluteUrl(baseURL, "models/furniture/table.glb"),
+  (gltf) => {
+    const table = gltf.scene.children[0];
+    table.scale.set(1.5, 1.5, 1.5);
+    table.rotation.y = Math.PI / 2;
+    table.position.set(-0.1, grassHeight + basementY + floorHeight, -0.1);
+    scene.add(table);
 
-  enableShadowsForGroup({ group: table, receive: true, cast: true });
-});
+    enableShadowsForGroup({ group: table, receive: true, cast: true });
+  }
+);
 
-gltfLoader.load("/models/furniture/rugDoormat.glb", (gltf) => {
-  const rugSquare = gltf.scene.children[0];
-  rugSquare.scale.set(3, 3, 3);
-  rugSquare.position.set(-0.6, grassHeight + basementY + floorHeight, 1.95);
-  scene.add(rugSquare);
+gltfLoader.load(
+  getAbsoluteUrl(baseURL, "models/furniture/rugDoormat.glb"),
+  (gltf) => {
+    const rugSquare = gltf.scene.children[0];
+    rugSquare.scale.set(3, 3, 3);
+    rugSquare.position.set(-0.6, grassHeight + basementY + floorHeight, 1.95);
+    scene.add(rugSquare);
 
-  enableShadowsForGroup({ group: rugSquare, receive: true, cast: true });
-});
+    enableShadowsForGroup({ group: rugSquare, receive: true, cast: true });
+  }
+);
 
-gltfLoader.load("/models/furniture/pottedPlant.glb", (gltf) => {
-  const pottedPlant = gltf.scene.children[0];
-  pottedPlant.scale.set(2, 2, 2);
-  pottedPlant.position.set(1.7, grassHeight + basementY + floorHeight, 1.8);
-  scene.add(pottedPlant);
+gltfLoader.load(
+  getAbsoluteUrl(baseURL, "models/furniture/pottedPlant.glb"),
+  (gltf) => {
+    const pottedPlant = gltf.scene.children[0];
+    pottedPlant.scale.set(2, 2, 2);
+    pottedPlant.position.set(1.7, grassHeight + basementY + floorHeight, 1.8);
+    scene.add(pottedPlant);
 
-  const secondPottedPlant = pottedPlant.clone();
-  secondPottedPlant.position.set(
-    -1.7,
-    grassHeight + basementY + floorHeight,
-    1.8
-  );
-  scene.add(secondPottedPlant);
+    const secondPottedPlant = pottedPlant.clone();
+    secondPottedPlant.position.set(
+      -1.7,
+      grassHeight + basementY + floorHeight,
+      1.8
+    );
+    scene.add(secondPottedPlant);
 
-  enableShadowsForGroup({ group: pottedPlant, receive: true, cast: true });
-  enableShadowsForGroup({
-    group: secondPottedPlant,
-    receive: true,
-    cast: true,
-  });
-});
+    enableShadowsForGroup({ group: pottedPlant, receive: true, cast: true });
+    enableShadowsForGroup({
+      group: secondPottedPlant,
+      receive: true,
+      cast: true,
+    });
+  }
+);
 
 // floor lamp light
 const floorLampLight = new THREE.PointLight("#ffff00", 1, 1.3);
 floorLampLight.position.set(0.1, 1.1, -0.1);
 
-gltfLoader.load("/models/furniture/lampRoundFloor.glb", (gltf) => {
-  const floorLamp = new THREE.Group();
+gltfLoader.load(
+  getAbsoluteUrl(baseURL, "models/furniture/lampRoundFloor.glb"),
+  (gltf) => {
+    const floorLamp = new THREE.Group();
 
-  const lampRoundFloor = gltf.scene.children[0];
-  const scaleStrength = 1.5;
-  lampRoundFloor.scale.set(scaleStrength, scaleStrength, scaleStrength);
+    const lampRoundFloor = gltf.scene.children[0];
+    const scaleStrength = 1.5;
+    lampRoundFloor.scale.set(scaleStrength, scaleStrength, scaleStrength);
 
-  floorLamp.add(lampRoundFloor);
-  floorLamp.add(floorLampLight);
-  floorLamp.position.set(-1.65, grassHeight + basementY + floorHeight, -1.45);
-  scene.add(floorLamp);
+    floorLamp.add(lampRoundFloor);
+    floorLamp.add(floorLampLight);
+    floorLamp.position.set(-1.65, grassHeight + basementY + floorHeight, -1.45);
+    scene.add(floorLamp);
 
-  enableShadowsForGroup({ group: floorLamp, receive: true, cast: true });
-});
+    enableShadowsForGroup({ group: floorLamp, receive: true, cast: true });
+  }
+);
 
-gltfLoader.load("/models/furniture/bookcaseClosedDoors.glb", (gltf) => {
-  const bookcaseClosedDoors = gltf.scene.children[0];
-  const scaleStrength = 1.5;
-  bookcaseClosedDoors.scale.set(scaleStrength, scaleStrength, scaleStrength);
-  bookcaseClosedDoors.rotation.y = -Math.PI / 2;
-  bookcaseClosedDoors.position.set(
-    1.6,
-    grassHeight + basementY + floorHeight,
-    -1.95
-  );
-  scene.add(bookcaseClosedDoors);
+gltfLoader.load(
+  getAbsoluteUrl(baseURL, "models/furniture/bookcaseClosedDoors.glb"),
+  (gltf) => {
+    const bookcaseClosedDoors = gltf.scene.children[0];
+    const scaleStrength = 1.5;
+    bookcaseClosedDoors.scale.set(scaleStrength, scaleStrength, scaleStrength);
+    bookcaseClosedDoors.rotation.y = -Math.PI / 2;
+    bookcaseClosedDoors.position.set(
+      1.6,
+      grassHeight + basementY + floorHeight,
+      -1.95
+    );
+    scene.add(bookcaseClosedDoors);
 
-  enableShadowsForGroup({
-    group: bookcaseClosedDoors,
-    receive: true,
-    cast: true,
-  });
-});
+    enableShadowsForGroup({
+      group: bookcaseClosedDoors,
+      receive: true,
+      cast: true,
+    });
+  }
+);
 
 // Ghost
 let ghost;
@@ -935,7 +1022,7 @@ objectsFolder
   })
   .name("Ghost on the roof light color");
 
-fbxLoader.load("/models/ghost/ghost.fbx", (fbx) => {
+fbxLoader.load(getAbsoluteUrl(baseURL, "models/ghost/ghost.fbx"), (fbx) => {
   ghost = new THREE.Group();
   fbx.scale.set(0.001, 0.001, 0.001);
   fbx.position.set(0, grassHeight, 0);
@@ -1054,26 +1141,29 @@ sign.position.set(
   basementZ / 2 + 2 * roadWidth + stickDepth + 0.5
 );
 
-fontLoader.load("/fonts/helvetiker_regular.typeface.json", (font) => {
-  const textGeometry = new TextGeometry("Haunted house", {
-    font: font,
-    size: 0.07,
-    depth: 0.002,
-    curveSegments: 5,
-    bevelEnabled: true,
-    bevelThickness: 0.004,
-    bevelSize: 0.002,
-    bevelOffset: 0,
-    bevelSegments: 4,
-  });
-  textGeometry.center();
-  const material = new THREE.MeshMatcapMaterial();
-  material.matcap = matcapTexture;
-  const text = new THREE.Mesh(textGeometry, material);
-  text.position.z = 0.03;
+fontLoader.load(
+  getAbsoluteUrl(baseURL, "fonts/helvetiker_regular.typeface.json"),
+  (font) => {
+    const textGeometry = new TextGeometry("Haunted house", {
+      font: font,
+      size: 0.07,
+      depth: 0.002,
+      curveSegments: 5,
+      bevelEnabled: true,
+      bevelThickness: 0.004,
+      bevelSize: 0.002,
+      bevelOffset: 0,
+      bevelSegments: 4,
+    });
+    textGeometry.center();
+    const material = new THREE.MeshMatcapMaterial();
+    material.matcap = matcapTexture;
+    const text = new THREE.Mesh(textGeometry, material);
+    text.position.z = 0.03;
 
-  boardGroup.add(text);
-});
+    boardGroup.add(text);
+  }
+);
 
 enableShadowsForGroup({
   group: sign,
@@ -1082,47 +1172,56 @@ enableShadowsForGroup({
 });
 
 // Trees
-gltfLoader.load("/models/nature/tree-branched.glb", (gltf) => {
-  const treeBranched = gltf.scene;
-  treeBranched.scale.set(0.5, 0.5, 0.5);
-  treeBranched.position.set(-3, grassHeight, -3.5);
-  scene.add(treeBranched);
+gltfLoader.load(
+  getAbsoluteUrl(baseURL, "models/nature/tree-branched.glb"),
+  (gltf) => {
+    const treeBranched = gltf.scene;
+    treeBranched.scale.set(0.5, 0.5, 0.5);
+    treeBranched.position.set(-3, grassHeight, -3.5);
+    scene.add(treeBranched);
 
-  enableShadowsForGroup({
-    group: treeBranched,
-    cast: true,
-    receive: true,
-  });
-});
+    enableShadowsForGroup({
+      group: treeBranched,
+      cast: true,
+      receive: true,
+    });
+  }
+);
 
-gltfLoader.load("/models/nature/tree-pyramidal.glb", (gltf) => {
-  const treePyramidal = gltf.scene;
-  treePyramidal.scale.set(0.4, 0.4, 0.4);
-  treePyramidal.position.set(-3, grassHeight, 5);
-  scene.add(treePyramidal);
+gltfLoader.load(
+  getAbsoluteUrl(baseURL, "models/nature/tree-pyramidal.glb"),
+  (gltf) => {
+    const treePyramidal = gltf.scene;
+    treePyramidal.scale.set(0.4, 0.4, 0.4);
+    treePyramidal.position.set(-3, grassHeight, 5);
+    scene.add(treePyramidal);
 
-  enableShadowsForGroup({
-    group: treePyramidal,
-    cast: true,
-    receive: true,
-  });
-});
+    enableShadowsForGroup({
+      group: treePyramidal,
+      cast: true,
+      receive: true,
+    });
+  }
+);
 
-gltfLoader.load("/models/nature/tree-round.glb", (gltf) => {
-  const treeRound = gltf.scene;
-  treeRound.scale.set(0.4, 0.4, 0.4);
-  treeRound.position.set(5, grassHeight, -1);
-  scene.add(treeRound);
+gltfLoader.load(
+  getAbsoluteUrl(baseURL, "models/nature/tree-round.glb"),
+  (gltf) => {
+    const treeRound = gltf.scene;
+    treeRound.scale.set(0.4, 0.4, 0.4);
+    treeRound.position.set(5, grassHeight, -1);
+    scene.add(treeRound);
 
-  enableShadowsForGroup({
-    group: treeRound,
-    cast: true,
-    receive: true,
-  });
-});
+    enableShadowsForGroup({
+      group: treeRound,
+      cast: true,
+      receive: true,
+    });
+  }
+);
 
 // Stones
-gltfLoader.load("/models/nature/stone1.glb", (gltf) => {
+gltfLoader.load(getAbsoluteUrl(baseURL, "models/nature/stone1.glb"), (gltf) => {
   const stone1 = gltf.scene;
   stone1.scale.set(0.4, 0.4, 0.4);
   stone1.position.set(3, 0.25, 5);
@@ -1136,7 +1235,7 @@ gltfLoader.load("/models/nature/stone1.glb", (gltf) => {
   });
 });
 
-gltfLoader.load("/models/nature/stone2.glb", (gltf) => {
+gltfLoader.load(getAbsoluteUrl(baseURL, "models/nature/stone2.glb"), (gltf) => {
   const stone2 = gltf.scene;
   stone2.scale.set(0.4, 0.4, 0.4);
   stone2.position.set(-5, 0.25, -3);
@@ -1150,7 +1249,7 @@ gltfLoader.load("/models/nature/stone2.glb", (gltf) => {
 });
 
 // Bushes
-gltfLoader.load("/models/nature/bush1.glb", (gltf) => {
+gltfLoader.load(getAbsoluteUrl(baseURL, "models/nature/bush1.glb"), (gltf) => {
   const bush1 = gltf.scene;
   bush1.scale.set(0.7, 0.7, 0.7);
   bush1.position.set(1, 0.15, -3.2);
@@ -1164,7 +1263,7 @@ gltfLoader.load("/models/nature/bush1.glb", (gltf) => {
   });
 });
 
-gltfLoader.load("/models/nature/bush2.glb", (gltf) => {
+gltfLoader.load(getAbsoluteUrl(baseURL, "models/nature/bush2.glb"), (gltf) => {
   const bush2 = gltf.scene;
   bush2.scale.set(0.6, 0.6, 0.6);
   bush2.position.set(1.5, 0.2, 3.2);
@@ -1179,7 +1278,7 @@ gltfLoader.load("/models/nature/bush2.glb", (gltf) => {
 });
 
 // Graves
-gltfLoader.load("/models/nature/grave.glb", (gltf) => {
+gltfLoader.load(getAbsoluteUrl(baseURL, "models/nature/grave.glb"), (gltf) => {
   const gravePattern = gltf.scene;
   gravePattern.scale.set(0.3, 0.3, 0.3);
   const cemetery = new THREE.Group();
