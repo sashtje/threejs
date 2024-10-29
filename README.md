@@ -21,4 +21,6 @@ Experiments with three.js
 5. **text** - [[can be seen here](https://sashtje.github.io/threejs/text/)]
 
       3D text with many toruses of different materials
-6. 
+6. **haunted-house** - [[can be seen here](https://sashtje.github.io/threejs/haunted-house/)]
+
+      The house, furniture, nature, cemetry and ghosts. Many different textures and models.
