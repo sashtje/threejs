@@ -62,6 +62,10 @@ export class House {
       cast: true,
       receive: true,
     });
+
+    // Disable shadows
+    this.wallWithDoor.castShadow = false;
+    this.insideDoor.castShadow = false;
   }
 
   setBasementAndStairs() {
