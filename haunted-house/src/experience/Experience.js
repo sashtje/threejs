@@ -14,6 +14,8 @@ import { Renderer } from "./Renderer";
 import sources from "./sources";
 
 export class Experience {
+  hasStarted = false;
+
   constructor(canvas) {
     window.experience = this;
 
@@ -83,13 +85,24 @@ export class Experience {
     this.camera.update();
     this.world.update();
     this.renderer.update();
+
+    if (this.hasStarted) {
+      this.hasStarted = false;
+
+      this.preloader = document.querySelector(".preloader");
+      this.preloader.classList.add("preloader_disabled");
+      this.canvas.classList.add("webgl_shown");
+
+      this.preloader.addEventListener("transitionend", () => {
+        this.preloader.style.display = "none";
+      });
+    }
   }
 
   start() {
-    // hide preloader
+    this.hasStarted = true;
 
     this.world.setWorld();
-
     this.time.startTicking();
   }
 }

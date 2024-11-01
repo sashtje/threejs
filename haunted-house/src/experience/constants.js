@@ -22,7 +22,9 @@ export const step3Z = 0.2;
 
 export const roadWidth = 1;
 
-export const fogColor = "#262837";
+export const fogColor = getComputedStyle(
+  document.querySelector("body")
+).backgroundColor;
 
 export const resourceTypes = {
   TEXTURE: "texture",
