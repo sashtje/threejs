@@ -24,3 +24,8 @@ Experiments with three.js
 6. **haunted-house** - [[can be seen here](https://sashtje.github.io/threejs/haunted-house/)]
 
       The house, furniture, nature, cemetry and ghosts. Many different textures and models.
+      - ***double click*** - open in fullscreen / close fullscreen
+      - ***haunted-house url + debug hash (url#debug)*** - turn on debug panel for different scene settings
+      - ***h*** - hide / show debug panel, working only with debug hash
+      - ***mouse click + hold + move*** - move camera around the scene
+      - ***mouse scroll in / out*** - move camera close / far
