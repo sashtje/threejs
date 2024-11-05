@@ -29,3 +29,7 @@ Experiments with three.js
       - ***h*** - hide / show debug panel, working only with debug hash
       - ***mouse click + hold + move*** - move camera around the scene
       - ***mouse scroll in / out*** - move camera close / far
+
+7. **dawn** - [[can be seen here](https://sashtje.github.io/threejs/dawn/)]
+
+      Just simple animation of the sun
