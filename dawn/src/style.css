@@ -1,0 +1,64 @@
+:root {
+  --bg-color: #000000;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  overflow: hidden;
+  background-color: var(--bg-color);
+}
+
+.webgl {
+  position: fixed;
+  top: 0;
+  left: 0;
+  outline: none;
+  opacity: 0;
+  transition: opacity 1s;
+}
+
+.webgl_shown {
+  opacity: 1;
+}
+
+.preloader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  color: #ffffff;
+  background-color: var(--bg-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 1s;
+  opacity: 1;
+  z-index: 1002;
+}
+
+.preloader__text {
+  font-size: 2rem;
+  animation: pulse 2.5s ease-in-out infinite;
+}
+
+.preloader_disabled {
+  opacity: 0;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
